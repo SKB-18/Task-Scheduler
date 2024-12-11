@@ -1,0 +1,145 @@
+create database task;
+use task;
+
+CREATE TABLE Department (
+departmentID INT PRIMARY KEY,
+departmentName VARCHAR(100),
+location VARCHAR(100),
+managerID INT);
+
+CREATE TABLE Employee (
+employeeID INT PRIMARY KEY,
+firstName VARCHAR(50),
+lastName VARCHAR(50),
+email VARCHAR(100),
+phone VARCHAR(15),
+hireDate DATE,
+departmentID INT,
+position VARCHAR(50),
+salary DECIMAL(10, 2),
+password VARCHAR(50),
+reportsTo INT, ## Self-referencing foreign key for hierarchy
+FOREIGN KEY (departmentID) REFERENCES Department(departmentID),
+FOREIGN KEY (reportsTo) REFERENCES Employee(employeeID));
+
+CREATE TABLE Project (
+projectID INT PRIMARY KEY,
+projectName VARCHAR(100),
+description TEXT,
+startDate DATE,
+endDate DATE,
+status VARCHAR(50),
+budget DECIMAL(15, 2),
+projectManagerID INT,
+FOREIGN KEY (projectManagerID) REFERENCES Employee(employeeID));
+
+CREATE TABLE Works (
+employeeID INT,
+projectID INT,
+PRIMARY KEY (employeeID, projectID),
+FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
+FOREIGN KEY (projectID) REFERENCES Project(projectID));
+
+CREATE TABLE Task (
+taskID INT PRIMARY KEY,
+projectID INT NOT NULL,
+taskName VARCHAR(100),
+description TEXT,
+assignedTo INT,
+status VARCHAR(50),
+priority VARCHAR(20),
+estimatedHours DECIMAL(5, 2),
+startDate DATE,
+dueDate DATE,
+ETA DATE,
+FOREIGN KEY (assignedTo) REFERENCES Employee(employeeID),
+FOREIGN KEY (projectID) REFERENCES Project(projectID));
+
+
+CREATE TABLE Resource (
+resourceID INT PRIMARY KEY,
+resourceName VARCHAR(100),
+type VARCHAR(100),
+costPerUnit DECIMAL(15, 2),
+assignedTaskID INT,
+quantity INT,
+FOREIGN KEY (assignedTaskID) REFERENCES Task(taskID));
+
+CREATE TABLE Schedule (
+scheduleID INT PRIMARY KEY,
+date DATE,
+startTime TIME,
+endTime TIME,
+scheduleType VARCHAR(50),
+employeeID INT,
+FOREIGN KEY (employeeID) REFERENCES Employee(employeeID));
+
+
+CREATE TABLE TimeEntry (
+entryID INT PRIMARY KEY,
+date DATE,
+hoursWorked INT,
+description TEXT,
+taskID INT,
+employeeID INT,
+FOREIGN KEY (taskID) REFERENCES Task(taskID),
+FOREIGN KEY (employeeID) REFERENCES Employee(employeeID));
+
+CREATE TABLE Skill (
+skillID INT PRIMARY KEY,
+skillName VARCHAR(100),
+description TEXT,
+category VARCHAR(50));
+
+CREATE TABLE EmployeeSkills (
+employeeSkillID INT PRIMARY KEY,
+skillID INT,
+employeeID INT,
+proficiencyLevel VARCHAR(50),
+dateAcquired DATE,
+FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
+FOREIGN KEY (skillID) REFERENCES Skill(skillID));
+
+CREATE TABLE Does (
+employeeID INT,
+taskID INT,
+PRIMARY KEY (employeeID, taskID),
+FOREIGN KEY (employeeID) REFERENCES Employee(employeeID),
+FOREIGN KEY (taskID) REFERENCES Task(taskID));
+
+CREATE TABLE Lists (
+employeeSkillID INT,
+skillID INT,
+PRIMARY KEY (employeeSkillID, skillID),
+FOREIGN KEY (skillID) REFERENCES Skill(skillID),
+FOREIGN KEY (employeeSkillID) REFERENCES EmployeeSkills(employeeSkillID));
+
+/*
+mysql queries
+*/
+
+select * from employee;
+
+/*
+slecting all rows order by salary in ascending order
+*/
+
+select * from employee order by salary asc;
+
+/*
+query to get data from two tables by joining and those tables are task and does
+*/
+
+select * from task t, does d where t.taskID = d.taskID and d.employeeID = '1';
+
+/*
+query to get max id from the employee table to generate auto ID
+*/
+
+select max(employeeID) FROM Employee;
+
+/*
+slecting all rows order by salary in descending order
+*/
+
+select * from employee order by salary desc;
