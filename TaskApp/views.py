@@ -964,7 +964,7 @@ def ViewEmpHistory(request):
         output += '</select></td></tr>'
         context= {'data1': output}
         return render(request, 'ViewEmpHistory.html', context) 
-from django.db import transaction
+
 
 def DeactivateAccountDetails(request):
     if request.method == 'GET':
@@ -1007,8 +1007,12 @@ def DeactivateAccountDetails(request):
         }
         return render(request, 'EmployeePage.html', context)
 
+
+
 from datetime import datetime
+import pymysql
 from django.db import transaction
+from django.shortcuts import render
 
 @transaction.atomic
 def UndoDeactivation(request):
@@ -1025,9 +1029,10 @@ def UndoDeactivation(request):
         db_cursor = db_connection.cursor()
         
         try:
-            # Convert the date from "Month DD, YYYY" to "YYYY-MM-DD"
+            # Convert the date from "Mon. DD, YYYY" to "YYYY-MM-DD"
             hire_date_str = request.POST['hire_date']
-            hire_date = datetime.strptime(hire_date_str, '%B %d, %Y').strftime('%Y-%m-%d')
+            hire_date_str = hire_date_str.replace('.', '')  # Remove the period after month abbreviation
+            hire_date = datetime.strptime(hire_date_str, '%b %d, %Y').strftime('%Y-%m-%d')
             
             insert_sql_query = """
             INSERT INTO Employee (employeeID, FirstName, LastName, Email, Phone, HireDate)
@@ -1048,13 +1053,14 @@ def UndoDeactivation(request):
             
         except Exception as e:
             db_connection.rollback()
-            status = f'Error restoring employee account: {e}'
+            status = f'Error restoring employee account: {str(e)}'
         finally:
             db_cursor.close()
             db_connection.close()
             
         context = {'data': status}
         return render(request, 'EmployeePage.html', context)
+
 
   
 
