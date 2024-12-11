@@ -1,0 +1,63 @@
+{% load static %}
+<html>
+<head>
+<title>Task Management</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="{% static 'style.css' %}" rel="stylesheet" type="text/css" />
+</head>
+<style>
+body {
+  background-image: url("{% static 'images/back.jpg' %}");
+}
+</style>
+<body>
+<div class="main">
+  <div class="main_resize">
+    <div class="header">
+      <div class="logo">
+        <h1><span>Task Scheduling & Management System</span><small></small></h1>
+      </div>
+    </div>
+    <div class="content">
+      <div class="content_bg">
+        <div class="menu_nav">
+   <ul>
+      <li><a href="{% url 'AddSkills' %}"><font size="3" color="black">Add New Skills</a></li>
+       <li><a href="{% url 'AssignSkills' %}"><font size="3" color="black">Assign Skills to Employee</a></li>
+      <li><a href="{% url 'UpdateSkills' %}"><font size="3" color="black">Search Employee</a></li>
+	  <li><a href="{% url 'Modules' %}"><font size="3" color="black">Back</a></li>	  
+   </ul>
+        </div>
+        <div class="hbg"><img src="{% static 'images/header_images.jpg' %}" width="1010" height="286" alt="" /></div>
+      				<center>
+<form name="f1" method="post" action={% url 'UpdateSkillsDetailsAction' %} onsubmit="return validate(this);">
+{% csrf_token %}<br/>
+   <h2><b>Update Skills Screen</b></h2>
+   
+	<font size="" color="red"><center>{{ data }}</center></font>
+						
+						<table align="center" width="30%" >
+
+						{{ data1|safe }}
+
+			 <tr><td><font size="3" color="black">Proficiency&nbsp;Level</b></td>
+			 <td><select name="t2">
+			 <option value="Low">Beginner</option>
+			 <option value="Intermediate">Intermediate</option>
+			 <option value="High">High</option>
+       <option value="Advanced">Advanced</option>
+       <option value="Expert">Expert</option>
+			 </select>
+			 </td></tr>
+         
+		 
+		   
+			<tr><td></td><td><input type="submit" value="Submit"></td>
+			</table>
+				</div>	
+					
+				</div>
+				
+					
+	</body>
+</html>

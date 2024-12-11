@@ -1,0 +1,56 @@
+{% load static %}
+<html>
+<head>
+    <title>Task Management</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <link href="{% static 'style.css' %}" rel="stylesheet" type="text/css" />
+</head>
+<style>
+    body {
+        background-image: url("{% static 'images/back.jpg' %}");
+    }
+</style>
+<body>
+    <div class="main">
+        <div class="main_resize">
+            <div class="header">
+                <div class="logo">
+                    <h1 align="center"><span>Task Scheduling & Management System</span><small></small></h1>
+                </div>
+            </div>
+            <div class="content">
+                <div class="content_bg">
+                    <div class="menu_nav">
+                        <ul>
+                            <li><a href="{% url 'AddEmployee' %}"><font size="3" color="black">Add New Employee</font></a></li>
+                            <li><a href="{% url 'UpdateEmployee' %}"><font size="3" color="black">Update Employee</font></a></li>
+                            <li><a href="{% url 'ViewEmpHistory' %}"><font size="3" color="black">View Profile</font></a></li>
+                            <li><a href="{% url 'DeactivateAccount' %}"><font size="3" color="black">Deactivate Account</font></a></li>
+                            <li><a href="{% url 'Modules' %}"><font size="3" color="black">Back</font></a></li>
+                        </ul>
+                    </div>
+                    <div class="hbg"><img src="{% static 'images/header_images.jpg' %}" width="1010" height="286" alt="" /></div>
+                    <p align="justify"><font size="3" style="font-family: Comic Sans MS" color="black"><center>Task Scheduling & Management Application</center></font></p>
+                    <font size="3" color="black"><center>{{ data|safe }}</center></font><br/>
+                    
+                    {% if show_undo and deactivated_employee %}
+<div align="center">
+    <form action="{% url 'UndoDeactivation' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="eid" value="{{ deactivated_employee.0 }}">
+        <input type="hidden" name="first_name" value="{{ deactivated_employee.1 }}">
+        <input type="hidden" name="last_name" value="{{ deactivated_employee.2 }}">
+        <input type="hidden" name="email" value="{{ deactivated_employee.3 }}">
+        <input type="hidden" name="phone_no" value="{{ deactivated_employee.4 }}">
+        <input type="hidden" name="hire_date" value="{{ deactivated_employee.5 }}">
+        <button type="submit" class="btn btn-primary">Undo Deactivation</button>
+    </form>
+</div>
+{% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

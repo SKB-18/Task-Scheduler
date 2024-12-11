@@ -1,0 +1,173 @@
+{% load static %}
+<html>
+<head>
+<title>Task Management</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="{% static 'style.css' %}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+	function validate(formObj)
+	{
+	if(formObj.t1.value.length==0)
+	{
+	alert("Please Enter first name");
+	formObj.t1.focus();
+	return false;
+	}
+	if(formObj.t2.value.length==0)
+	{
+	alert("Please Enter last name");
+	formObj.t2.focus();
+	return false;
+	}
+	if(formObj.t3.value.length==0)
+	{
+	alert("Please Enter Email Id");
+	formObj.t3.focus();
+	return false;
+	}
+	var filter = /^([a-zA-Z0-9_\.\-])+\@([a-z]+\.)+(com)+$/;
+    if (!filter.test(formObj.t3.value)) {
+		window.alert('Please enter valid email address');
+		formObj.t3.focus();
+		return false;
+	}
+	if(formObj.t4.value.length==0)
+	{
+	alert("Please Enter Contact No");
+	formObj.t4.focus();
+	return false;
+	}	
+	if(isNaN(formObj.t4.value)){
+		alert("Contact No must be numeric");
+		formObj.t4.focus();
+		return false;
+	}
+	
+	if(formObj.t5.value.length==0)
+	{
+	alert("Please Choose Hire date");
+	formObj.t5.focus();
+	return false;
+	}
+	if(formObj.t7.value.length==0)
+	{
+	alert("Please Enter Position");
+	formObj.t7.focus();
+	return false;
+	}
+	if(formObj.t8.value.length==0)
+	{
+	alert("Please Enter Salary");
+	formObj.t8.focus();
+	return false;
+	}
+	if(formObj.t9.value.length==0)
+	{
+	alert("Please Enter Report To");
+	formObj.t9.focus();
+	return false;
+	}
+	if(formObj.t9.value.length==0)
+	{
+	alert("Please Enter Report To");
+	formObj.t9.focus();
+	return false;
+	}
+	if(formObj.t10.value.length==0)
+	{
+	alert("Please Enter Password");
+	formObj.t10.focus();
+	return false;
+	}
+	return true;
+	}
+	</script>
+<script language="javascript" type="text/javascript" src="{% static 'datetimepicker.js' %}">
+</script>	
+</head>
+<style>
+body {
+  background-image: url("{% static 'images/back.jpg' %}");
+}
+</style>
+<body>
+<div class="main">
+  <div class="main_resize">
+    <div class="header">
+      <div class="logo">
+        
+      </div>
+    </div>
+    <div class="content">
+      <div class="content_bg">
+        <div class="menu_nav">
+    <ul>
+      <li><a href="{% url 'AddEmployee' %}"><font size="3" color="black">Add New Employee</a></li>
+       <li><a href="{% url 'UpdateEmployee' %}"><font size="3" color="black">Update Employee</a></li>
+      <li><a href="{% url 'ViewEmpHistory' %}"><font size="3" color="black">View Profile</a></li>
+	  <li><a href="{% url 'DeactivateAccount' %}"><font size="3" color="black">Deactivate Account</a></li>
+	  <li><a href="{% url 'Modules' %}"><font size="3" color="black">Back</a></li>	  
+   </ul>    
+        </div>
+        
+      				<center>
+<form name="f1" method="post" action={% url 'AddEmployeeAction' %} onsubmit="return validate(this);">
+{% csrf_token %}<br/>
+   <h2><b>Add New Employee Screen</b></h2>
+   
+	<font size="" color="red"><center>{{ data }}</center></font>
+
+	<div class="header-container">
+    <header class="header">
+        <link rel="stylesheet" href="{% static 'css/stateracss register.css' %}">
+        <link rel="stylesheet" href="https://use.typekit.net/yvb6gjg.css">
+        <nav class="nav">
+            <img src="{% static 'images/new logo 2@2x.png'%}" class="nav-logo" alt="Logo">
+            <a class="nav-link" href="http://127.0.0.1:8000/">Statera</a>
+        </nav>
+    </header>
+
+	<div class="right-section">
+                <div class="login-box">
+						
+						<table align="center" width="30%" >
+
+						<label for="first-name">First Name</label>
+                        <input type="text" name="t1" id="first-name" placeholder="Enter your first name" required>
+
+						<label for="last-name">Last Name</label>
+                        <input type="text" name="t2"  id="last-name" placeholder="Enter your last name" required>
+  
+                        <label for="email">Email</label>
+                        <input type="email" name="t3"  id="email" placeholder="Enter your email" required>
+
+						 <label for="phone">Phone</label>
+                        <input type="tel"  name="t4"  id="phone" placeholder="Enter your phone number" required>
+  
+                        <label for="hire-date">Hire Date</label>
+                        <input type="date"  name="t5"  id="hire-date" required>
+
+						{{ data1|safe }}
+
+						 <label for="email">Position</label>
+                        <input type="text" name="t7"  id="position" placeholder="Enter Position" required>
+
+						 <label for="email">Salary</label>
+                        <input type="text"  name="t8" id="salary" placeholder="Enter Salary" required>
+
+						 <label for="email">Report To</label>
+                        <input type="text" name="t9"  id="report" placeholder="Report To" required>
+
+						 <label for="password">Password</label>
+                        <input type="password" name="t10"  id="report" placeholder="Report To" required>
+
+
+			<tr><td></td><td><input type="submit" value="Submit"></td>
+			</table>
+				</div>	
+					
+				</div>
+				
+					
+	</body>
+</html>

@@ -1,0 +1,83 @@
+{% load static %}
+<html>
+<head>
+<title>Task Management</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="{% static 'style.css' %}" rel="stylesheet" type="text/css" />
+<script language="javascript">
+	function validate(formObj)
+	{
+	if(formObj.t1.value.length==0)
+	{
+	alert("Please Enter department name");
+	formObj.t1.focus();
+	return false;
+	}
+	if(formObj.t2.value.length==0)
+	{
+	alert("Please Enter location name");
+	formObj.t2.focus();
+	return false;
+	}
+	if(formObj.t3.value.length==0)
+	{
+	alert("Please Enter Manager Id");
+	formObj.t3.focus();
+	return false;
+	}
+	return true;
+	}
+	</script>
+<script language="javascript" type="text/javascript" src="{% static 'datetimepicker.js' %}">
+</script>	
+</head>
+<style>
+body {
+  background-image: url("{% static 'images/back.jpg' %}");
+}
+</style>
+<body>
+<div class="main">
+  <div class="main_resize">
+    <div class="header">
+      <div class="logo">
+        <h1><span>Task Scheduling & Management System</span><small></small></h1>
+      </div>
+    </div>
+    <div class="content">
+      <div class="content_bg">
+        <div class="menu_nav">
+     <ul>
+      <li><a href="{% url 'AddDepartment' %}"><font size="3" color="black">Add New Department</a></li>
+       <li><a href="{% url 'AssignManager' %}"><font size="3" color="black">Assign Manager</a></li>
+      <li><a href="{% url 'UpdateDepartment' %}"><font size="3" color="black">View/Update Department</a></li>
+	  <li><a href="{% url 'Modules' %}"><font size="3" color="black">Back</a></li>	  
+   </ul>
+        </div>
+        <div class="hbg"><img src="{% static 'images/header_images.jpg' %}" width="1010" height="286" alt="" /></div>
+      				<center>
+<form name="f1" method="post" action={% url 'AddDepartmentAction' %} onsubmit="return validate(this);">
+{% csrf_token %}<br/>
+   <h2><b>Add New Department Screen</b></h2>
+   
+	<font size="" color="red"><center>{{ data }}</center></font>
+						
+						<table align="center" width="30%" >
+			 <tr><td><font size="3" color="black">Department&nbsp;Name</b></td>
+			 <td><input type="text" name="t1" style="font-family: Comic Sans MS" size="25"></td></tr>
+         
+		  <tr><td><font size="3" color="black">Location&nbsp;Name</b></td>
+			<td><input name="t2" type="Text" size="25"></td></td></tr>
+
+			<tr><td><font size="3" color="black">Manager&nbsp;ID</b></td><td><input type="text" name="t3" style="font-family: Comic Sans MS" size="20"/></td></tr>
+
+			
+			<tr><td></td><td><input type="submit" value="Submit"></td>
+			</table>
+				</div>	
+					
+				</div>
+				
+					
+	</body>
+</html>
